@@ -1,0 +1,24 @@
+  type Todo {
+    id: ID!
+    task: String!
+    completed: Boolean!
+  }
+
+  type User {
+    id: ID!
+    email: String!
+    todos: [Todo!]!
+  }
+
+  type Query {
+    todos: [Todo!]!
+    me: User
+  }
+
+  type Mutation {
+    register(email: String!, password: String!): User!
+    login(email: String!, password: String!): String!
+    addTodo(task: String!): Todo!
+    toggleTodoCompleted(id: ID!): Todo!
+    removeTodo(id: ID!): Todo!
+  }
