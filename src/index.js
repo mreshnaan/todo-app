@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 // import App from "./App";
-import App from "./DragTest";
+import App from "./AnchoredPopups";
 import { RelayEnvironmentProvider } from "react-relay";
 import environment from "./relay/environment";
 

@@ -1,15 +1,10 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import { useCombobox } from "downshift";
 import cx from "classnames";
 import Editor from "./Editor";
 
-function Assessment() {
-  const [isExpanded, setIsExpanded] = useState(false);
+const Assessment = forwardRef(({ expanded, onClick, listeners }, ref) => {
   const [selectedItems, setSelectedItems] = useState([]);
-
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
 
   const disorders = [
     {
@@ -217,28 +212,40 @@ function Assessment() {
 
   return (
     <div
+      ref={ref}
       style={{
         width: "600px",
-        height: isExpanded ? "100%" : "50px",
         transition: "height 0.3s ease",
       }}
-      className="border rounded-t rounded-lg border-[#517894]"
+      className="border-2 rounded-t rounded-lg border-[#517894]"
     >
       <div
-        className="py-2 px-4 bg-[#517894] text-white cursor-pointer"
-        onClick={toggleExpand}
+        className={`flex items-center m-0 gap-4 bg-[#517894] border-2 border-[#517894]  text-white cursor-pointer navbar-box ${
+          expanded ? "expanded" : ""
+        }`}
       >
-        <h2 className="font-semibold text-xl flex items-center gap-2">
-          Assessment{" "}
-          {selectedItems.length > 0 && (
-            <div className="bg-[#C1E6FF] p-2 text-sm rounded-sm">
-              {selectedItems.length} Diagnosis
-            </div>
-          )}
-        </h2>
+        <div {...listeners} className="text-black px-10 py-1 text-center text-[12px] bg-yellow-50">
+          drag me
+        </div>
+
+        <div onClick={onClick} className="w-full h-full">
+          <h2 className="font-semibold text-xl flex items-center gap-2">
+            Assessment{" "}
+            {selectedItems.length > 0 && (
+              <div className="bg-[#C1E6FF] p-2 text-sm rounded-sm">
+                {selectedItems.length} Diagnosis
+              </div>
+            )}
+          </h2>
+        </div>
       </div>
-      {isExpanded && (
-        <div className="py-4 px-4 min-h-[400px] max-h-[600px]">
+
+      {expanded && (
+        <div
+          className={`${
+            expanded ? "block" : "hidden"
+          } py-4 px-4 min-h-[400px] max-h-[600px] bg-white text-black`}
+        >
           <div>
             <h3 className="font-semibold text-lg mb-1 pb-1 border-b ">
               Diagnosis
@@ -253,6 +260,6 @@ function Assessment() {
       )}
     </div>
   );
-}
+});
 
 export default Assessment;

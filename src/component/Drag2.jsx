@@ -162,32 +162,49 @@ function DraggableStory({ handle, modifiers, style, children }) {
   };
 
   return (
-    <div className="sticky-bottom-nav">
-      <DndContext onDragEnd={handleDragEnd} modifiers={modifiers}>
-        {React.Children.map(children, (child, index) => (
-          <DraggableItem
-            key={index}
-            id={`draggable${index + 1}`}
-            label={`Draggable ${index + 1}`}
-            handle={handle}
-            left={positions[`draggable${index + 1}`]?.x || 0}
-            style={style}
-            itemRef={itemRefs}
-          >
-            {child}
-          </DraggableItem>
-        ))}
-      </DndContext>
-    </div>
+    <DndContext onDragEnd={handleDragEnd} modifiers={modifiers}>
+      {React.Children.map(children, (child, index) => (
+        <DraggableItem
+          key={index}
+          id={`draggable${index + 1}`}
+          label={`Draggable ${index + 1}`}
+          handle={handle}
+          left={positions[`draggable${index + 1}`]?.x || 0}
+          style={style}
+          itemRef={itemRefs}
+        >
+          {child}
+        </DraggableItem>
+      ))}
+    </DndContext>
   );
 }
 
-export const RestrictToWindowEdges = () => (
-  <DraggableStory
-    style={{}}
-    modifiers={[restrictToHorizontalAxis, restrictToWindowEdges]}
-  >
-    <Assessment />
-    <Assessment />
-  </DraggableStory>
-);
+export const RestrictToWindowEdges = () => {
+  const [expandedBoxes, setExpandedBoxes] = useState({});
+
+  const handleBoxClick = (boxId) => {
+    setExpandedBoxes((prevExpandedBoxes) => ({
+      ...prevExpandedBoxes,
+      [boxId]: !prevExpandedBoxes[boxId],
+    }));
+  };
+
+  return (
+    <div className="sticky-navbar">
+      <DraggableStory
+        style={{}}
+        modifiers={[restrictToHorizontalAxis, restrictToWindowEdges]}
+      >
+        <Assessment
+          expanded={expandedBoxes.box1}
+          onClick={() => handleBoxClick("box1")}
+        />
+        <Assessment
+          expanded={expandedBoxes.box2}
+          onClick={() => handleBoxClick("box2")}
+        />
+      </DraggableStory>
+    </div>
+  );
+};
